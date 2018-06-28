@@ -227,6 +227,12 @@ NSString const *CALLBACK_ASSOCIATED_ID = @"RCCNavigationController.CALLBACK_ASSO
     // popToRoot
     if ([performAction isEqualToString:@"popToRoot"]) {
         NSString *animationType = actionParams[@"animationType"];
+        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+            if (self.visibleViewController && [self.visibleViewController isKindOfClass:[RCCViewController class]]) {
+                RCCViewController *vc = (RCCViewController *)self.visibleViewController;
+                [vc setStyleOnDisappear];
+            }
+        }
         if ([animationType isEqualToString:@"fade"]) {
             CATransition *transition = [CATransition animation];
             transition.duration = 0.25;
